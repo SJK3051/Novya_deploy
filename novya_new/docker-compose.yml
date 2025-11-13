@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: novya
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: backend_service
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    environment:
+      DB_NAME: novya
+      DB_USER: postgres
+      DB_PASSWORD: 12345
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    restart: always
+
+  ai_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.ai
+    container_name: ai_backend_service
+    command: python -m uvicorn app:app --host 0.0.0.0 --port 8001
+    volumes:
+      - ./backend/ai_backend:/app
+    env_file:
+      - ./backend/ai_backend/.env     # ✅ LOAD .env here (not inside Dockerfile)
+    environment:
+      DB_NAME: novya
+      DB_USER: postgres
+      DB_PASSWORD: 12345
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      - db
+    ports:
+      - "8001:8001"
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontend_service
+    environment:
+      REACT_APP_DJANGO_URL: "http://130.33.249.161:8000/api"
+      REACT_APP_FASTAPI_URL: "http://130.33.249.161:8001"
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+      - ai_backend
+    restart: always
+
+volumes:
+  db_data:
