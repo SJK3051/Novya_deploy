@@ -20,7 +20,7 @@
 
 # # Initialize client with error handling
 # try:
-#     client = OpenAI(api_key=API_KEY, base_url="https://openrouter.ai/api/v1")
+#     client = OpenAI(api_key=API_KEY, base_url=os.getenv("AI_BASE_URL", "https://api.openai.com/v1"))
 #     logger.info("OpenAI client initialized successfully")
 # except Exception as e:
 #     logger.error(f"Failed to initialize OpenAI client: {e}")
@@ -1551,7 +1551,7 @@
             
 #         try:
 #             response = client.chat.completions.create(
-#                 model="google/gemini-2.0-flash-001",
+#                 model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
 #                 messages=[{"role": "user", "content": prompt}],
 #                 temperature=0.9
 #             )
@@ -1752,7 +1752,7 @@
 #         """
        
 #         response = client.chat.completions.create(
-#             model="google/gemini-2.0-flash-001",
+#             model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
 #             messages=[{"role": "user", "content": prompt}],
 #             temperature=0.7
 #         )
@@ -1838,7 +1838,7 @@
 #         """
        
 #         response = client.chat.completions.create(
-#             model="google/gemini-2.0-flash-001",
+#             model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
 #             messages=[{"role": "user", "content": prompt}],
 #             temperature=0.7
 #         )
@@ -1918,7 +1918,7 @@
 #         """
        
 #         response = client.chat.completions.create(
-#             model="google/gemini-2.0-flash-001",
+#             model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
 #             messages=[{"role": "user", "content": prompt}],
 #             temperature=0.7
 #         )
@@ -2276,7 +2276,7 @@
 
 #         logger.info(f"Sending prompt to AI for chapter: {chapter} in {language}")
 #         response = client.chat.completions.create(
-#             model="google/gemini-2.0-flash-001",
+#             model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
 #             messages=[{"role": "user", "content": prompt}],
 #             temperature=0.9
 #         )
@@ -2413,7 +2413,7 @@ if not API_KEY:
 
 # Initialize client with error handling
 try:
-    client = OpenAI(api_key=API_KEY, base_url="https://openrouter.ai/api/v1")
+    client = OpenAI(api_key=API_KEY, base_url=os.getenv("AI_BASE_URL", "https://api.openai.com/v1"))
     logger.info("OpenAI client initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize OpenAI client: {e}")
@@ -3939,7 +3939,7 @@ def get_quiz(
             
         try:
             response = client.chat.completions.create(
-                model="google/gemini-2.0-flash-001",
+                model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.9
             )
@@ -4125,7 +4125,7 @@ async def ai_assistant_chat(request: ChatRequest):
         """
        
         response = client.chat.completions.create(
-            model="google/gemini-2.0-flash-001",
+            model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -4211,7 +4211,7 @@ async def generate_study_plan(request: StudyPlanRequest):
         """
        
         response = client.chat.completions.create(
-            model="google/gemini-2.0-flash-001",
+            model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -4291,7 +4291,7 @@ async def generate_notes(request: NotesRequest):
         """
        
         response = client.chat.completions.create(
-            model="google/gemini-2.0-flash-001",
+            model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -4438,7 +4438,7 @@ def get_mock_test(
 
         logger.info(f"Sending prompt to AI for chapter: {chapter} in {language}")
         response = client.chat.completions.create(
-            model="google/gemini-2.0-flash-001",
+            model=os.getenv("AI_MODEL_NAME", "gpt-3.5-turbo"),
             messages=[{"role": "user", "content": prompt}],
             temperature=0.9
         )

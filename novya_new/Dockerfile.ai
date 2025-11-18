@@ -2,19 +2,12 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# copy requirements
+# Install dependencies
 COPY backend/ai_backend/requirements.txt .
 
-# remove wrong openai version from requirements
-RUN grep -v "openai" requirements.txt > req_no_openai.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# install all other dependencies
-RUN pip install --no-cache-dir -r req_no_openai.txt
-
-# force install CORRECT openai version
-RUN pip install --no-cache-dir "openai==0.28.1"
-
-# copy app code
+# Copy app
 COPY backend/ai_backend /app
 
 CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8001"]
